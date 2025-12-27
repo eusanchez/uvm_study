@@ -35,8 +35,8 @@ Example of a function:
 ```
 function new(string name, uvm_component parent);
     super.new(name, parent);
-      imp = new("imp", this);
-    endfunction
+    imp = new("imp", this);
+endfunction
 ```
 
 ### The 3 categories of phases
