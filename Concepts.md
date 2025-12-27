@@ -32,12 +32,12 @@ Each phase can be either a function or a task. Methods that do not consume simul
 
 Example of a function:
 
-`
+```
 function new(string name, uvm_component parent);
     super.new(name, parent);
       imp = new("imp", this);
     endfunction
-`
+```
 
 ### The 3 categories of phases
 1. Build time phases
