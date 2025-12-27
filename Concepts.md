@@ -30,6 +30,15 @@ uvm_component have phases, they cannot proceed to the next phase until all compo
 
 Each phase can be either a function or a task. Methods that do not consume simulation time are *functions* and methods that consume simulation time are *tasks*. 
 
+Example of a function:
+
+`
+function new(string name, uvm_component parent);
+    super.new(name, parent);
+      imp = new("imp", this);
+    endfunction
+`
+
 ### The 3 categories of phases
 1. Build time phases
 2. Run time phases
