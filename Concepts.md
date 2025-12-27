@@ -39,6 +39,27 @@ function new(string name, uvm_component parent);
 endfunction
 ```
 
+Example of a task:
+```
+task run_phase(uvm_phase phase);
+      add_txn tr;
+
+      // drive defaults
+      vif.a <= '0;
+      vif.b <= '0;
+
+      forever begin
+        seq_item_port.get_next_item(tr);
+
+        @(posedge vif.clk);
+        vif.a <= tr.a;
+        vif.b <= tr.b;
+
+        seq_item_port.item_done();
+      end
+endtask
+```
+
 ### The 3 categories of phases
 1. Build time phases
 2. Run time phases
