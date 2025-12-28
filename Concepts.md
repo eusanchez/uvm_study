@@ -80,6 +80,20 @@ endtask
 ### Range constraints
 Limit values to a range.
 
+```
+constraint values_def {
+      a inside {[1:20]};
+      b inside {[1:20]};
+    }
+```
+
+### Soft constraints
+Is a default that can be overridden by a stronger constraint.
+```
+constraint c_default soft {
+  a inside {[0:100]};
+}
+```
 
 
 
