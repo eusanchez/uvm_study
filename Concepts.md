@@ -62,6 +62,15 @@ endtask
 
 ### The 3 categories of phases
 1. Build time phases
+  - build_phase: Create components, get configurations and initialize handles
+  - connect_phase: connect TLM ports, wire components together. Used to connect driver <-> sequencer and monitor -> scoreboard.
+  - end_of_elaboration_phase: used to display UVM topology and other functions required to be done after connections. 
+  - start_of_simulation_phase: set initial run-time configuration or display topology.
 2. Run time phases
+  - run_phase: clock edges happen. Used for example driver to pull transactions, or driver DUT signals. Ends only when objections are dropped (*phase.raise_objection(this) ... phase.drop_objection(this)*)
 3. Clean-up phases
+  - extract_phase: collect final results
+  - check_phase: final consistency checks
+  - report_phase: print summary and error counts. (UVM default implementation automatically)
+  - final_phase: used to do last minute operations before exiting the simulation.
 
