@@ -74,6 +74,22 @@ endtask
   - report_phase: print summary and error counts. (UVM default implementation automatically)
   - final_phase: used to do last minute operations before exiting the simulation.
 
+### run_phase phases
+Either we use a run phase, or we can implement runtime sub-phases.
+1. uvm_pre_reset_phase: before reset is asserted
+2. *uvm_reset_phase*: reset is asserted
+3. uvm_post_reset_phase: after reset is de-asserted
+4. uvm_pre_configure_phase: before the DUT is configured by the SW
+5. *uvm_configure_phase*: the sw configures the DUT
+6. uvm_post_configure_phase: after sw has configured the DUT
+7. uvm_pre_main_phase: before the primary test stimulus strats
+8. *uvm_main_phase*: primary test stimulus
+9. uvm_post_main_phase: after enough of the primary test stimulus
+10. uvm_pre_shutdown_phase: before things settle down
+11. uvm_shutdown_phase: letting things settle down
+12. uvm_post_shutdown_phase: after things have settled down
+
+
 
 ## Constraints
 
