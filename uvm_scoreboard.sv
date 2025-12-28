@@ -33,7 +33,7 @@
                    $sformatf("a=%0d b=%0d exp=%0d got=%0d", tr.a, tr.b, exp_old, tr.y))
       end else begin
         `uvm_info("OK",
-          $sformatf("a=%0d b=%0d y=%0d", tr.a, tr.b, tr.y),
+                  $sformatf("a=%0d b=%0d y=%0d", tr.a, tr.b, exp_now),
           UVM_LOW)
       end
     endfunction

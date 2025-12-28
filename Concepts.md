@@ -74,3 +74,12 @@ endtask
   - report_phase: print summary and error counts. (UVM default implementation automatically)
   - final_phase: used to do last minute operations before exiting the simulation.
 
+
+## Constraints
+
+### Range constraints
+Limit values to a range.
+
+
+
+
