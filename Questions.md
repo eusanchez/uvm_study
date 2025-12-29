@@ -24,3 +24,6 @@
 11. How do you program hierarchical status communication within an object mechanism?
 
 12. How do you initiate new sequence requests within a driver?
+
+13. What are interfaces and why are they useful?
+    - Interfaces encapsulates communication signals, and make the code more organizable, readable and reusable.

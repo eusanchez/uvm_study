@@ -92,9 +92,7 @@ Either we use a run phase, or we can implement runtime sub-phases.
 
 
 ## Constraints
-
-### Range constraints
-Limit values to a range.
+**Hard Constraints**: Rule over any other constraint. Limit values to a range.
 
 ```
 constraint values_def {
@@ -103,13 +101,57 @@ constraint values_def {
     }
 ```
 
-### Soft constraints
-Is a default that can be overridden by a stronger constraint.
+**Soft Constraints** : Is a default that can be overridden by a stronger constraint.
 ```
 constraint c_default soft {
   a inside {[0:100]};
 }
 ```
 
+
+## uvm_config_db
+UVM global configuration database. Pass information from higher levels of the testbench (top module, test, env) to lower-level UVM components (env, agent, driver...)
+
+Interfaces live in modules, and UVM components are classes, **CLASSES CAN'T DIRECTLY REFERENCE MODULES**, so *uvm_config_db* is the bridge that connects them.
+
+This is composed by *set()* (puts the data in the database) and *get()* (retrieves data).
+
+set():
+```
+uvm_config_db#(TYPE)::set(context, scope, key, value);
+```
+
+get():
+```
+uvm_config_db#(TYPE)::get(context, scope, key, variable);
+```
+
+Arguments:
+- TYPE: Data type, usually *virtual my_if*
+- context : where the call is made from, usually *null* or *this*.
+- scope : who this applies to (hierarchical path)
+- key : name of data
+- value : the data itself
+
+Example from uvm_monitor.sv using *get()*. 
+```
+function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      if (!uvm_config_db#(virtual dut_if)::get(this, "", "vif", vif))
+        `uvm_fatal("NOVIF", "Monitor: virtual interface not set")
+    endfunction
+```
+
+The "" means: "Search upward from this component's hierarchy." In other words, using our example context: “From where I am, look upward in the hierarchy and find something called vif.”.
+
+Example from tb_top.sv using *set()*
+```
+initial begin
+    // Provide vif to all components
+    uvm_config_db#(virtual dut_if)::set(null, "*", "vif", vif);
+
+    run_test("add_test");
+  end
+```
 
 
