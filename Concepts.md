@@ -1,4 +1,4 @@
-## uvm_object vs uvm_component
+## uvm_object vs uvm_component (UVM util macros)
 
 ### uvm_object
 **uvm_object** are *transient*, just like transactions they are created and dissapeared when they are no longer in use. They don't have phases. 
