@@ -101,6 +101,12 @@ constraint values_def {
     }
 ```
 
+```
+constraint value_addr {
+  addr[1:0] == 2'b00;
+}
+```
+
 **Soft Constraints** : Is a default that can be overridden by a stronger constraint.
 ```
 constraint c_default soft {
