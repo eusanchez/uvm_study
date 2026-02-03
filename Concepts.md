@@ -10,7 +10,7 @@ the primary role of uvm_object is to define a set of common functions:
 - record
 
 In our environment some clear examples are:
-1. uvm_sequence
+1. uvm_sequence *-> sequence decides what conditions/scenario should happen*
 2. uvm_transaction
 
 
@@ -18,7 +18,7 @@ In our environment some clear examples are:
 **uvm_component** is *static* they are created during build_phase() and persist throughout the simulation. They participate in phases, constructed with *new(name,parent)*
 
 In our environment some clear examples are:
-1. uvm_driver
+1. uvm_driver *-> driver decides how those conditions are applied on signals*
 2. uvm_monitor
 3. etc...
 
@@ -160,4 +160,17 @@ initial begin
   end
 ```
 
+## task body() vs task run_phase()
 
+```task body()``` is used in **uvm_sequence**, it describes what transactions to generate.
+
+```task run_phase()``` is used in **uvm_component**, describes how a component behaves over time. 
+
+
+## seq_item_port.____()
+
+**get_next_item()**
+
+It is the driver pulling the next transaction from the sequencer. It is the exact handshake point between *Sequences* (stimulus intent) and *Driver* (signal-level execution)
+
+**item_done()**

@@ -66,7 +66,7 @@ endclass
     - pass-by-value is a copy of the value passed to the function or task, changes do not affect the original variable. pass-by-reference is the original value is passed. 
 
 17. What are analysis ports used for?
-    - Analysis port re used to bradcast transactions from monitors to scoreboards and coverage components in a non-blocking, decoupled way. 
+    - Analysis port is used to broadcast transactions from monitors to scoreboards and coverage components in a non-blocking, decoupled way. 
 
 18. What is the UVM factory?
     - Is a mechanism that controls how UVM objects and components are created, allowing modification without actually changing the code. It helps reuse environments, without editing env code. 
