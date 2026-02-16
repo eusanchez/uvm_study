@@ -277,4 +277,12 @@ endgroup
 
 Syntax monitor specific value transitions rather than individual states.
 
+There is also the posibility of doing a coverpoint using an ```iff``` in a coverpoint.
+
+```verilog 
+cp_pwrite : coverpoint pwrite iff (state==ACCESS);
+```
+
+**THE covergroup_name covergroup_name_inst = new(); IS ALWAYS REQUIRED.**
+
 **Note:** *Code coverage adopts an implementation view while functional coverage takes a specification view.*
