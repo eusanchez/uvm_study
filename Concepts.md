@@ -174,3 +174,107 @@ initial begin
 It is the driver pulling the next transaction from the sequencer. It is the exact handshake point between *Sequences* (stimulus intent) and *Driver* (signal-level execution)
 
 **item_done()**
+
+
+## Coverage
+
+### Code Coverage
+This metric is used to determine the degree to which the code has been executed by a set of test cases. Code coverage is generated using specialized tools that track signals and statements in the RTL code that have been executed during simulation. 
+
+The simulation tool uses a coverage database to keep track of which part of the design have been exercised during simulation. Once completed coverage data is analyzed to determine different metrics like: branch, condition expression and toggle coverage. 
+
+Types of RTL coverage:
+- Statement coverge
+- Branch coverage
+- Condition coverage
+- Expression coverage
+- Toggle coverage
+- Path Coverage
+- Finite State Machine (FSM) coverage
+
+Code coverage is automatically extracted by the simulator tool from the design code without requiring any user-defined constructs. 
+
+### Functional Coverage 
+Measures how much of the design specification or inteded functionality has been tested. 
+
+Functional coverage is defined using *covergroups, coverpoints* and *bins* that specify which values, ranges, or conditions of signals and variables are important for verification. 
+
+Ex: For testing an ALU opcode signal, you would create a coverpoint for that signal and define bins for each valid opcode value that should be exercised.
+
+#### Basic Covergroup Syntaxis
+
+```verilog
+covergroup cg @(posedge clk);
+  c1: coverpoint addr {
+    bins b1 = {0, 2, 7};              // Single bin for values 0, 2, or 7
+    bins b2[3] = {11:20};             // Three bins splitting range 11-20
+    bins b3 = {[30:40], [50:60], 77}; // One bin for multiple ranges
+    bins b4[] = {160, 170, 180};      // Three separate bins (auto-split)
+    bins b5 = {200:$};                // Bin for 200 to max value
+    bins b6 = default;                // Catches uncovered values
+  }
+endgroup
+```
+
+There also exist the posibility where no bins are created:
+
+```verilog
+bit [2:0] addr;  // 3-bit signal
+
+covergroup cg @(posedge clk);
+  c1: coverpoint addr;  // No explicit bins
+endgroup
+```
+
+In this specific case, SystemVerilog will automatically create bins for you. The number of automatic bins created depends on variable's bit width and ```auto_bin_max``` limit, the limit is set by default to max of 64 bins. 
+
+In the case above the automatically create bins equivalent to:
+
+```verilog
+coverpoint addr {
+  bins auto[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+}
+```
+
+Also there is the option to create this bins without the ```@(posedge clk)```.
+
+Example:
+```verilog
+covergroup cov_grp;
+  cov_p1: coverpoint addr;
+  cov_p2: coverpoint data;
+endgroup
+
+cov_grp cov_inst = new();
+
+initial begin
+  cov_inst.start();
+  
+  // Sample manually when needed
+  addr = 8'h10;
+  data = 8'hFF;
+  cov_inst.sample();  // Explicit sampling
+  
+  addr = 8'h20;
+  data = 8'hAA;
+  cov_inst.sample();  // Sample again
+end
+```
+
+Where you must explicitly call the ```.sample()``` to trigger the covergroup, as well as ```.start()``` to enable the coverage collection.
+
+There is also the transition bins, capture sequences of value susing the ```=>``` operator.
+
+```verilog
+covergroup cg @(posedge clk);
+  c1: coverpoint addr {
+    bins b1 = (10 => 20 => 30);           // Sequence 10→20→30
+    bins b2[] = (40 => 50), (80 => 90 => 100 => 120); // The [] means to create separate bins for each transition sequence rather than grouping them into a single bin.
+    bins b3 = (1, 5 => 6, 7);             // 1→6, 1→7, 5→6, or 5→7
+  }
+endgroup
+```
+
+Syntax monitor specific value transitions rather than individual states.
+
+**Note:** *Code coverage adopts an implementation view while functional coverage takes a specification view.*
