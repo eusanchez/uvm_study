@@ -22,9 +22,47 @@ In our environment some clear examples are:
 2. uvm_monitor
 3. etc...
 
+## Factory registration
+All uvm_component and uvm_object must be registered with the factory using a pre-defined facotry registration macro. 
+
+Example registration for uvm_object:
+```verilog
+class sequence extends uvm_sequence #(seq_item);
+  `uvm_object_utils(reg_seq)
+endclass
+
+
+// For a parametrized class
+class param_obj #(int WIDTH = 16) extends uvm_object;
+
+  typedef param_obj #(int WIDTH) obj_p;
+  `uvm_object_param_utils(obj_p)
+
+endclass
+```
+
+Example registration for uvm_componenet:
+
+```verilog
+  class reg_driver extends uvm_driver;
+  // factory registration for driver component
+  `uvm_component_utils(reg_driver)
+
+endclass
+
+// For parameterized class
+class param_env #(int WIDTH = 32, ID = 0) extends uvm_env;
+  typedef param_env #(int WIDTH, ID) env_p;
+  `uvm_component_param_utils(env_p)
+
+endclass
+```
+
 ## UVM Phases
 
 uvm_component have phases, they cannot proceed to the next phase until all componenets finish their execution in the current phase. UVM Phases acts as a synchronizing mechanism.
+
+All phases execute at the same time, first all build phases from every component, then all run time phases etc.. ***
 
 ### Function and Tasks.
 
@@ -286,3 +324,18 @@ cp_pwrite : coverpoint pwrite iff (state==ACCESS);
 **THE covergroup_name covergroup_name_inst = new(); IS ALWAYS REQUIRED.**
 
 **Note:** *Code coverage adopts an implementation view while functional coverage takes a specification view.*
+
+## UVM Components
+
+### Environment
+The higher-level component that integrates one or more agents along with other key verification componenets. Besides the agent, it include the *scoreboard*.
+
+Also contain coverage collectors to mesure how throughly the DUT has been tested.
+
+### Scoreboard
+Compares DUT's actual outputs with expected results to identify mistmatches.
+
+### Agent
+
+An agent can be configured to operate in **active mode** (generating stimuli and monitoring outputs) or **passive mode** (only monitoring outputs). 
+
