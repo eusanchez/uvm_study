@@ -1,3 +1,8 @@
+## Levels of observability
+1. Black box -> focuses on external behavior
+2. White box -> box that focuses on internal behavior 
+3. Gray box -> combines black and white box testing partially knows what is internally and partially knows what is externally. (Most common in real practice)
+
 ## uvm_object vs uvm_component (UVM util macros)
 
 ### uvm_object
